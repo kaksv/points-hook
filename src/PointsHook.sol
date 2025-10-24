@@ -15,6 +15,8 @@ import {IPoolManager} from "v4-core/interfaces/IPoolManager.sol";
 import {Hooks} from "v4-core/libraries/Hooks.sol";
 
 contract PointsHook is BaseHook, ERC1155 {
+event PointsAssigned(address indexed user, uint256 poolId, uint256 points);
+
     constructor(IPoolManager _manager) BaseHook(_manager) {}
 
     function getHookPermissions()
@@ -95,5 +97,6 @@ contract PointsHook is BaseHook, ERC1155 {
         // Mint points to the user
         uint256 poolIdUint = uint256(PoolId.unwrap(poolId));
         _mint(user, poolIdUint, points, "");
+        emit PointsAssigned(user, poolIdUint, points);
     }
 }
